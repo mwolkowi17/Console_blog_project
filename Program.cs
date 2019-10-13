@@ -35,7 +35,7 @@ namespace Console_Blog
 
                     var lista = db.Posts.ToList();
 
-                    foreach( var rekord in lista)
+                    foreach (var rekord in lista)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("=====================================================================");
@@ -45,22 +45,38 @@ namespace Console_Blog
                         Console.WriteLine("=====================================================================");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
-                    
-                    Console.WriteLine("Jeśli chcesz wprowadzić kolejny wpis wciśnij dowony inny klawisz.");
-                    string choice_a = Console.ReadLine();
-                    //usunięcie konkretndo posta (o danym ID o ile istnieje)
-                    Console.WriteLine("Wprowadź numer post do usunięcia:");
-                    string o = Console.ReadLine();
-                    int p = Convert.ToInt32(o);
-                    //w tej chwili zawsze usuwa 2
-                    var singlePost = db.Posts
-                        .Single(b => b.PostId == p);
 
-                    Console.WriteLine(singlePost);
-                    db.Remove(singlePost);
-                    //db.Remove(blog);
-                    db.SaveChanges();
-                    
+                    Console.WriteLine("Jeśli chcesz wprowadzić kolejny wpis wciśnij dowony inny klawisz.");
+                    Console.WriteLine("Jeśli chcesz usunąć jakię wpis wpisz:kas");
+                    string choice_a = Console.ReadLine();
+                    bool choice_b = false;
+                    if (choice_a == "kas")
+                    {
+                        choice_b = true;
+                    }
+                    while (choice_b == true)
+                    {
+                        //usunięcie konkretndo posta (o danym ID o ile istnieje)
+                        Console.WriteLine("Wprowadź numer post do usunięcia:");
+                        string o = Console.ReadLine();
+                        int p = Convert.ToInt32(o);
+                        //w tej chwili zawsze usuwa 2
+                        var singlePost = db.Posts
+                            .Single(b => b.PostId == p);
+
+                        Console.WriteLine("usuwam post o tytule - " + singlePost.Title);
+                        db.Remove(singlePost);
+                        //db.Remove(blog);
+                        db.SaveChanges();
+                        choice_b = false;
+                        Console.WriteLine("Kasujesz kolejny wpis? Jeśli tak wpisz: tak jeśli nie to dowolny inny klawisz");
+                        string choice_c = Console.ReadLine();
+                        if (choice_c == "tak")
+                        {
+                            choice_b = true;
+                        }
+
+                    }
 
 
                 }
